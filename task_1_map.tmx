@@ -10,6 +10,12 @@
  <tileset name="tant" firstgid="14" tilewidth="40" tileheight="71">
   <image source="tant2.png"/>
  </tileset>
+ <tileset name="cactus" firstgid="15" tilewidth="40" tileheight="63">
+  <image source="cactus.png"/>
+ </tileset>
+ <tileset name="blue" firstgid="16" tilewidth="40" tileheight="57">
+  <image source="blue.png"/>
+ </tileset>
  <layer name="Layer 0" width="32" height="18">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAAONkYGBgBWLOAaIH0m7OAbZ71P+j/h/1/6j/R/0/6v9R/w8MDQBiycWJAAkAAA==
@@ -17,7 +23,7 @@
  </layer>
  <layer name="Layer 2" width="32" height="18">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAAGNhQAWMQMwMxCxAzE0HDLKHDwkj289LB4xuz6j92O3HBkay/ZwDYD8njnCgBFAS/qP2j9pPbfu5GCD1As8A2Y8Pj9pPG/vZcWB6AADbQ205AAkAAA==
+   H4sIAAAAAAAAAN2U7QqAIAxFEyWj7/d/2hQUbqLpmBoVnD8iO3E3p4b7JwzSsTTGOpRhBwScb40REc/f/KNBOyaGH+vEah0Ans/Q75XhxzqxWin/2/l/ze9zDvPN9b/W/D39qwzQBeD9WNZUP2fflcy/z4uTVYv56+VPzV94l/LWU7uB2v/cXeoOqu2vkX9vP+UdW/8JhDuJiq15AbWp9cgACQAA
   </data>
  </layer>
 </map>
