@@ -2,16 +2,16 @@
 <!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
 <map version="1.0" orientation="orthogonal" width="32" height="18" tilewidth="40" tileheight="40">
  <tileset name="Untitled" firstgid="1" tilewidth="40" tileheight="40">
-  <image source="??/image_2.png"/>
+  <image source="image_2.png"/>
  </tileset>
  <tileset name="Untitled" firstgid="13" tilewidth="40" tileheight="40">
-  <image source="??/road.png"/>
+  <image source="road.png"/>
  </tileset>
  <tileset name="Untitled" firstgid="14" tilewidth="40" tileheight="40">
-  <image source="??/tant.png"/>
+  <image source="tant.png"/>
  </tileset>
  <tileset name="Untitled" firstgid="15" tilewidth="40" tileheight="71">
-  <image source="??/tant1.png"/>
+  <image source="tant1.png"/>
  </tileset>
  <layer name="Layer 0" width="32" height="18" visible="0">
   <data encoding="base64" compression="gzip">
