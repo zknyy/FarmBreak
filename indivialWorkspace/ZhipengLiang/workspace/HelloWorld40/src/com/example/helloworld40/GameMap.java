@@ -19,17 +19,17 @@ public class GameMap {
 	int mBitMapWidth = 0;
 	int mBitMapHeight = 0;
     //tile块的宽高
-public final static int TILE_WIDTH = 32;
-public final static int TILE_HEIGHT = 32;
+public final static int TILE_WIDTH = 40;//32
+public final static int TILE_HEIGHT = 40;//32
 
     //tile块的宽高的数量
-public final static int TILE_WIDTH_COUNT = 10;
-public final static int TILE_HEIGHT_COUNT = 15;
+public final static int TILE_WIDTH_COUNT = 10;//10;
+public final static int TILE_HEIGHT_COUNT = 15;//15;
 
 //数组元素为0则什么都不画
 public final static int TILE_NULL = 0;
 //第一层游戏View地图数组
-public int [][]mMapView = {
+public int [][]mMapViewLayer1 = {
 	{ 1, 1, 1, 1, 137, 137, 137, 1, 1, 1 },
 	{ 1, 1, 1, 1, 137, 137, 137, 1, 1, 1 },
 	{ 1, 1, 1, 1, 137, 137, 137, 1, 1, 1 },
@@ -48,7 +48,7 @@ public int [][]mMapView = {
 	};
 
 //第二层游戏实体actor数组
-public int [][]mMapAcotor  = {
+public int [][]mMapAcotorLayer2  = {
 	{ 102, 103, 103, 104, 0, 0, 0, 165, 166, 167 },
 	{ 110, 111, 111, 112, 0, 0, 0, 173, 174, 175 },
 	{ 126, 127, 127, 128, 0, 0, 0, 181, 182, 183 },
@@ -67,7 +67,7 @@ public int [][]mMapAcotor  = {
 	};
 
 //第三层游戏碰撞物理层数组 
-public int [][]mCollision  = {
+public int [][]mCollisionLayer3  = {
 	{ -1, -1, -1, -1, 0, 0, 0, -1, -1, -1 },
 	{ -1, -1, -1, -1, 0, 0, 0, -1, -1, -1 },
 	{ -1, -1, -1, -1, 0, 0, 0, -1, -1, -1 },
@@ -115,13 +115,13 @@ public Bitmap ReadBitMap(Context context, int resId) {
     return BitmapFactory.decodeStream(is, null, opt);
 }
 
-
+//画地图
 public void drawMap(Canvas canvas,Paint paint) {
     int i,j;
     for(i = 0; i< TILE_HEIGHT_COUNT; i++) {
 	for(j = 0; j<TILE_WIDTH_COUNT;j++) {
-	    int ViewID =  mMapView[i][j];
-	    int ActorID = mMapAcotor[i][j];
+	    int ViewID =  mMapViewLayer1[i][j];
+	    int ActorID = mMapAcotorLayer2[i][j];
 	    //绘制地图第一层
 	    if(ViewID > TILE_NULL) {
 		 DrawMapTile(ViewID,canvas,paint,mBitmap, j * TILE_WIDTH , i * TILE_HEIGHT);
@@ -151,23 +151,24 @@ private void DrawMapTile(int id,Canvas canvas,Paint paint ,Bitmap bitmap,int x, 
     DrawClipImage(canvas,paint,bitmap,x,y,bitmapX,bitmapY,TILE_WIDTH,TILE_HEIGHT);
 }
 
-
-/**
-* 绘制图片中的一部分图片
-* @param canvas
-* @param paint
-* @param bitmap
-* @param x
-* @param y
-* @param src_x
-* @param src_y
-* @param src_width
-* @param src_Height
-*/
-private void DrawClipImage(Canvas canvas,Paint paint ,Bitmap bitmap, int x, int y, int src_x, int src_y, int src_xp, int src_yp) {
-canvas.save();
-canvas.clipRect(x, y, x + src_xp, y + src_yp);
-canvas.drawBitmap(bitmap, x - src_x, y - src_y,paint);
-canvas.restore();
-}
+	/**
+	 * 绘制图片中的一部分图片
+	 * 
+	 * @param canvas
+	 * @param paint
+	 * @param bitmap
+	 * @param xOnCanvas
+	 * @param yOnCanvas
+	 * @param xOntile
+	 * @param yOntile
+	 * @param tileWidth
+	 * @param tileHigh
+	 */
+	private void DrawClipImage(Canvas canvas, Paint paint, Bitmap bitmap,
+			int xOnCanvas, int yOnCanvas, int xOntile, int yOntile, int tileWidth,	int tileHigh) {
+		canvas.save();
+		canvas.clipRect(xOnCanvas, yOnCanvas, xOnCanvas + tileWidth, yOnCanvas+ tileHigh);
+		canvas.drawBitmap(bitmap, xOnCanvas - xOntile, yOnCanvas - yOntile, paint);
+		canvas.restore();
+	}
 }
