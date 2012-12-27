@@ -179,8 +179,10 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 			hero.mHeroIndexY = hero.mHeroPosY / GameMap.TILE_HEIGHT;
 		
 			/** Ô½½ç¼ì²â **/
-			int width = this.gameMap.mCollisionLayer3[hero.mHeroIndexY].length - 1;
-			int height = this.gameMap.mCollisionLayer3.length - 1;
+//			int width = this.gameMap.mMapExtraLayer3[hero.mHeroIndexY].length - 1;
+//			int height = this.gameMap.mMapExtraLayer3.length - 1;
+			int width = this.gameMap.mMapObjLayer2[hero.mHeroIndexY].length - 1;
+			int height = this.gameMap.mMapObjLayer2.length - 1;
 		
 			if (hero.mHeroIndexX <= 0) {
 				hero.mHeroIndexX = 0;
@@ -192,7 +194,8 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 			} else if (hero.mHeroIndexY >= height) {
 				hero.mHeroIndexY = height;
 			}
-			if (this.gameMap.mCollisionLayer3[hero.mHeroIndexY][hero.mHeroIndexX] == -1) {
+//			if (this.gameMap.mMapExtraLayer3[hero.mHeroIndexY][hero.mHeroIndexX] == -1) {
+			if (this.gameMap.mMapObjLayer2[hero.mHeroIndexY][hero.mHeroIndexX] !=0){//== -1) {
 				hero.mHeroPosX = hero.mBackHeroPosX;
 				hero.mHeroPosY = hero.mBackHeroPosY;
 			    isAcotrCollision = true;
