@@ -7,10 +7,13 @@ import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.samsung.spen.lib.input.SPenEventLibrary;
+
 public class GameActivity extends Activity {
 
 	Hero hero = new Hero();
-	
+
+    SPenEventLibrary spel = new SPenEventLibrary();
 	
 	
 	
@@ -32,6 +35,12 @@ public class GameActivity extends Activity {
 		// 显示自定义的游戏View
 		AnimationView mAnimView = new AnimationView(this,display.getWidth(), display.getHeight(), hero);
 		setContentView(mAnimView);
+		
+		
+		//添加SPen的监听器
+
+	    spel.setSPenTouchListener(mAnimView, new TouchListener());//*/
+	    spel.setSPenHoverListener(mAnimView, new HoverListener(this.hero));
 	}
 
 	@Override

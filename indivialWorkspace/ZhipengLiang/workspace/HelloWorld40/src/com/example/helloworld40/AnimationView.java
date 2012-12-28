@@ -44,18 +44,6 @@ int mScreenWidth = 0;
 int mScreenHeight = 0;
 
 
-/**主角行走步长**/
-public final static int HERO_STEP = 8;
-
-
-/**与实体层发生碰撞**/
-private boolean isAcotrCollision = false;
-/**与边界层发生碰撞**/
-private boolean isBorderCollision = false;
-/**与人物发生碰撞**/
-private boolean isPersonCollision = false;
-
-
 
 //分离出来的GameMap类
 GameMap gameMap = null;
@@ -113,17 +101,20 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 	    /**更新动画**///更新Hero的移动,没有这个Hero无法移动,只能原地踏步
 		UpdateAnimation();
 
-		if (isBorderCollision) {
+		if (hero.isBorderCollision) {
 			DrawCollision(canvas, "与边界发生碰撞");
 		}
 
-		if (isAcotrCollision) {
+		if (hero.isAcotrCollision) {
 			DrawCollision(canvas, "与实体层发生碰撞");
 		}
-		if (isPersonCollision) {
+		if (hero.isPersonCollision) {
 			DrawCollision(canvas, "与NPC发生碰撞");
 		}
 		super.onDraw(canvas);
+		
+		Log.v("hero", "x: "+hero.mHeroPosX+" y:"+hero.mHeroPosY);
+		
 		invalidate();
 	}
 
@@ -135,43 +126,44 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 	private void UpdateAnimation() {
 		
 		//按键和触屏都能移动
-	    if (mAllkeyDown|| this.touchAction==MotionEvent.ACTION_MOVE
-	    		||this.touchAction==MotionEvent.ACTION_DOWN) {
-		    	
+//	    if (mAllkeyDown|| this.touchAction==MotionEvent.ACTION_MOVE
+//	    		||this.touchAction==MotionEvent.ACTION_DOWN) {
+		
 			/** 根据按键更新显示动画 **/
 			/** 在碰撞数组中寻找看自己是否与地图物理层发生碰撞 **/
-			if (mIskeyDown) {
-			    mAnimationState = hero.ANIM_DOWN;
-			    hero.mHeroPosY += HERO_STEP;
-			} else if (mIskeyLeft) {
-			    mAnimationState = hero.ANIM_LEFT;
-			    hero.mHeroPosX -= HERO_STEP;
-			} else if (mIskeyRight) {
-			    mAnimationState = hero.ANIM_RIGHT;
-			    hero.mHeroPosX += HERO_STEP;
-			} else if (mIskeyUp) {
-			    mAnimationState = hero.ANIM_UP;
-			    hero.mHeroPosY -= HERO_STEP;
-			}
+	    	//用按键进行游戏
+//			if (mIskeyDown) {
+//			    mAnimationState = hero.ANIM_DOWN;
+//			    hero.mHeroPosY += hero.step;
+//			} else if (mIskeyLeft) {
+//			    mAnimationState = hero.ANIM_LEFT;
+//			    hero.mHeroPosX -= hero.step;
+//			} else if (mIskeyRight) {
+//			    mAnimationState = hero.ANIM_RIGHT;
+//			    hero.mHeroPosX += hero.step;
+//			} else if (mIskeyUp) {
+//			    mAnimationState = hero.ANIM_UP;
+//			    hero.mHeroPosY -= hero.step;
+//			}
 			
 			//添加一个触屏的移动函数
-			this.touchHeroMove();
+//			this.touchHeroMove();
 		
 			/** 检测人物是否出屏 **/
-			isBorderCollision = false;
+			hero.isBorderCollision = false;
 			if (hero.mHeroPosX <= 0) {
 				hero.mHeroPosX = 0;
-			    isBorderCollision =true;
+			    hero.isBorderCollision =true;
 			} else if (hero.mHeroPosX >= mScreenWidth) {
 				hero.mHeroPosX = mScreenWidth;
-			    isBorderCollision =true;
+			    hero.isBorderCollision =true;
 			}
 			if (hero.mHeroPosY <= 0) {
 				hero.mHeroPosY = 0;
-			    isBorderCollision =true;
+			    hero.isBorderCollision =true;
 			} else if (hero.mHeroPosY >= mScreenHeight) {
 				hero.mHeroPosY = mScreenHeight;
-			    isBorderCollision =true;
+				hero.isBorderCollision =true;
 			}
 		
 			/** 算出英雄移动后在地图二位数组中的索引 **/
@@ -198,16 +190,16 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 			if (this.gameMap.mMapObjLayer2[hero.mHeroIndexY][hero.mHeroIndexX] !=0){//== -1) {
 				hero.mHeroPosX = hero.mBackHeroPosX;
 				hero.mHeroPosY = hero.mBackHeroPosY;
-			    isAcotrCollision = true;
+			    hero.isAcotrCollision = true;
 			} else {
 				hero.mBackHeroPosX = hero.mHeroPosX;
 				hero.mBackHeroPosY = hero.mHeroPosY;
-			    isAcotrCollision = false;
+			    hero.isAcotrCollision = false;
 			}
 			/** 算出人物绘制的XY坐标 **/
 			hero.mHeroImageX = hero.mHeroPosX - Hero.OFF_HERO_X;
 			hero.mHeroImageY = hero.mHeroPosY - Hero.OFF_HERO_Y;
-	    }
+//	    }
 	}
 	private void RenderAnimation(Canvas canvas) {
 	    if (mAllkeyDown) {
@@ -302,49 +294,53 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 	int posX = 0;
 	int posY = 0;
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		touchAction = event.getAction();
-		posX = (int) event.getX();
-		posY = (int) event.getY();
-		if (lastPosX != posX) {
-			lastPosX = posX;
-		}
-		if (lastPosY != posY) {
-			lastPosY = posY;
-		}
-
-		switch (touchAction) {
-		// 触摸按下的事件
-		case MotionEvent.ACTION_DOWN:
-			Log.v("test", "ACTION_DOWN");
-			break;
-		// 触摸移动的事件
-		case MotionEvent.ACTION_MOVE:
-			Log.v("test", "ACTION_MOVE");
-			break;
-		// 触摸抬起的事件
-		case MotionEvent.ACTION_UP:
-			Log.v("test", "ACTION_UP");
-			break;
-		}
-		/** 得到事件触发时间 **/
-		// mActionTime = event.getEventTime();
-		/** 通知UI线程刷新屏幕 **/
-		// postInvalidate();
-		// invalidate();
-		// return super.onTouchEvent(event);
-		Log.v("mouse", "x:" + posX + " y:" + posY);
-		return true;
-	}
+	/*
+	 * 触摸屏幕事件,让hero行走(non-Javadoc)
+	 * @see android.view.View#onTouchEvent(android.view.MotionEvent)
+	 */
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//
+//		touchAction = event.getAction();
+//		posX = (int) event.getX();
+//		posY = (int) event.getY();
+//		if (lastPosX != posX) {
+//			lastPosX = posX;
+//		}
+//		if (lastPosY != posY) {
+//			lastPosY = posY;
+//		}
+//
+//		switch (touchAction) {
+//		// 触摸按下的事件
+//		case MotionEvent.ACTION_DOWN:
+//			Log.v("test", "ACTION_DOWN");
+//			break;
+//		// 触摸移动的事件
+//		case MotionEvent.ACTION_MOVE:
+//			Log.v("test", "ACTION_MOVE");
+//			break;
+//		// 触摸抬起的事件
+//		case MotionEvent.ACTION_UP:
+//			Log.v("test", "ACTION_UP");
+//			break;
+//		}
+//		/** 得到事件触发时间 **/
+//		// mActionTime = event.getEventTime();
+//		/** 通知UI线程刷新屏幕 **/
+//		// postInvalidate();
+//		// invalidate();
+//		// return super.onTouchEvent(event);
+//		Log.v("mouse", "x:" + posX + " y:" + posY);
+//		return true;
+//	}
 	//添加一个触屏的移动函数
 	private void touchHeroMove(){
 		//下
 		if(this.posY>this.hero.mHeroPosY){
 			mAnimationState = Hero.ANIM_DOWN;
-			if(this.posY-this.hero.mHeroPosY>HERO_STEP){
-				this.hero.mHeroPosY += HERO_STEP;
+			if(this.posY-this.hero.mHeroPosY>hero.step){
+				this.hero.mHeroPosY += hero.step;
 			}else{
 				this.hero.mHeroPosY += this.posY-this.hero.mHeroPosY;				
 			}
@@ -352,8 +348,8 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 		//右
 		if(this.posX>this.hero.mHeroPosX){
 			mAnimationState = Hero.ANIM_RIGHT;
-			if(this.posX-this.hero.mHeroPosX>HERO_STEP){
-				this.hero.mHeroPosX += HERO_STEP;
+			if(this.posX-this.hero.mHeroPosX>hero.step){
+				this.hero.mHeroPosX += hero.step;
 			}else{
 				this.hero.mHeroPosX += this.posX-this.hero.mHeroPosX;				
 			}
@@ -361,8 +357,8 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 		//上
 		if(this.posY<this.hero.mHeroPosY){
 			mAnimationState = Hero.ANIM_UP;
-			if(this.hero.mHeroPosY-this.posY>HERO_STEP){
-				this.hero.mHeroPosY -= HERO_STEP;
+			if(this.hero.mHeroPosY-this.posY>hero.step){
+				this.hero.mHeroPosY -= hero.step;
 			}else{
 				this.hero.mHeroPosY -= this.hero.mHeroPosY-this.posY;				
 			}
@@ -370,8 +366,8 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 		//左
 		if(this.posX<this.hero.mHeroPosX){
 			mAnimationState = Hero.ANIM_LEFT;
-			if(this.hero.mHeroPosX-this.posX>HERO_STEP){
-				this.hero.mHeroPosX -= HERO_STEP;
+			if(this.hero.mHeroPosX-this.posX>hero.step){
+				this.hero.mHeroPosX -= hero.step;
 			}else{
 				this.hero.mHeroPosX -= this.hero.mHeroPosX-this.posX;				
 			}
