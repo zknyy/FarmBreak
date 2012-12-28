@@ -72,16 +72,16 @@ public class HoverListener implements SPenHoverListener {
 			lastPosY = posY;
 			lastPosX = posX;
 
-//			this.hero.mBackHeroPosX = lastPosX;
-//			this.hero.mBackHeroPosY = lastPosY;
+			//this.hero.mBackHeroPosX = lastPosX;
+			//this.hero.mBackHeroPosY = lastPosY;
 			
 		this.hero.mHeroPosX = posX;
 		this.hero.mHeroPosY = posY;
 		
-		Log.v("onHover", "x:" + posX + " y:" + posY+ " touchAction="+touchAction);
 		
 		}
 
+//		Log.v("onHover", "x:" + posX + " y:" + posY+ " touchAction="+touchAction);
 		
 		return true;
 	}
