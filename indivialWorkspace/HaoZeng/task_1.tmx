@@ -69,4 +69,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="Area" width="32" height="18">
+  <object x="0" y="0" width="440" height="720"/>
+  <object x="440" y="0" width="840" height="320"/>
+  <object x="440" y="320" width="840" height="400"/>
+ </objectgroup>
 </map>
