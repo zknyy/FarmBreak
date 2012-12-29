@@ -23,5 +23,6 @@ local.properties
 /indivialWorkspace/ZhipengLiang/workspace/.metadata/*
 /indivialWorkspace/ZhipengLiang/workspace/SPenSDK_Demo/*
 /indivialWorkspace/ZhipengLiang/workspace/HenShooter/*
-/indivialWorkspace/ZhipengLiang/workspace/AndEngine/*
-/indivialWorkspace/ZhipengLiang/workspace/AndEnginePhysicsBox2DExtension/*
+/indivialWorkspace/ZhipengLiang/workspace/AndEngine/
+/indivialWorkspace/ZhipengLiang/workspace/AndEnginePhysicsBox2DExtension/
+/workspace/.metadata/*
