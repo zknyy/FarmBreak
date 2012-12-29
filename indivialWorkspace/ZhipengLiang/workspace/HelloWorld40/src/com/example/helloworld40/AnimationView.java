@@ -81,10 +81,10 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 	//    hero.mHeroAnim[hero.ANIM_LEFT] = new Animation(context,new int []{R.drawable.hero_left_a,R.drawable.hero_left_b,R.drawable.hero_left_c,R.drawable.hero_left_d},true);
 	//    hero.mHeroAnim[hero.ANIM_RIGHT]= new Animation(context,new int []{R.drawable.hero_right_a,R.drawable.hero_right_b,R.drawable.hero_right_c,R.drawable.hero_right_d},true);
 	//    hero.mHeroAnim[hero.ANIM_UP]   = new Animation(context,new int []{R.drawable.hero_up_a,R.drawable.hero_up_b,R.drawable.hero_up_c,R.drawable.hero_up_d},true);
-	    hero.mHeroAnim[hero.ANIM_DOWN] = new Animation(context,new int []{R.drawable.dog40,R.drawable.dog40,R.drawable.dog40,R.drawable.dog40},true);
-	    hero.mHeroAnim[hero.ANIM_LEFT] = new Animation(context,new int []{R.drawable.dog40,R.drawable.dog40,R.drawable.dog40,R.drawable.dog40},true);
-	    hero.mHeroAnim[hero.ANIM_RIGHT]= new Animation(context,new int []{R.drawable.dog40,R.drawable.dog40,R.drawable.dog40,R.drawable.dog40},true);
-	    hero.mHeroAnim[hero.ANIM_UP]   = new Animation(context,new int []{R.drawable.dog40,R.drawable.dog40,R.drawable.dog40,R.drawable.dog40},true);
+	    hero.mHeroAnim[hero.ANIM_DOWN] = new Animation(context,new int []{R.drawable.chick,R.drawable.chick,R.drawable.chick,R.drawable.chick},true);
+	    hero.mHeroAnim[hero.ANIM_LEFT] = new Animation(context,new int []{R.drawable.chick,R.drawable.chick,R.drawable.chick,R.drawable.chick},true);
+	    hero.mHeroAnim[hero.ANIM_RIGHT]= new Animation(context,new int []{R.drawable.chick,R.drawable.chick,R.drawable.chick,R.drawable.chick},true);
+	    hero.mHeroAnim[hero.ANIM_UP]   = new Animation(context,new int []{R.drawable.chick,R.drawable.chick,R.drawable.chick,R.drawable.chick},true);
 	}
 
 	@Override

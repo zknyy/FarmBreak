@@ -2,7 +2,8 @@ package com.example.helloworld40;
 
 public class Hero {
 
-
+	public int life = 3;//3条命
+	
 	public int penOff = 20;//笔的偏移12个pix
 	
 	/**主角行走步长**/
