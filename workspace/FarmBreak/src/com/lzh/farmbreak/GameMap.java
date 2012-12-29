@@ -10,6 +10,27 @@ import android.graphics.Paint;
 
 public abstract class GameMap {
 
+	public static final int MAP1 =1;
+	public static final int MAP2 =2;
+	public static final int MAP3 =3;
+	
+	
+	public static GameMap getGameMap(int mapNum,Context context){
+
+		switch (mapNum) {
+		case MAP1:
+			return new GameMapRound1(context);
+//			break;
+		case MAP2:
+			return null;
+//			break;
+		case MAP3:
+			return null;
+//			break;
+		}
+		return null;
+	}
+
 	// 横向纵向tile块的数量
 	int mWidthTileCount = 0;
 	int mHeightTileCount = 0;
@@ -53,6 +74,8 @@ public abstract class GameMap {
 
 		
 	}
+	
+
 
 /**
  * 读取本地资源的图片

@@ -59,7 +59,7 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
     
     this.hero=hero;
 	
-    gameMap=new GMTask1(context);
+    gameMap=new GameMapRound1(context);
     mPaint = new Paint();
     mScreenWidth = screenWidth;
     mScreenHeight = screenHeight;  

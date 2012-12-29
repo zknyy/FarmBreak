@@ -1,5 +1,7 @@
 package com.lzh.farmbreak;
 
+import android.content.Context;
+
 public abstract class Task {
 	
 
@@ -13,13 +15,15 @@ public abstract class Task {
 	
 	public GameMap gameMap;
 	
+	public Context context;
+	
 	public int [][] recoverArea;//恢复区域包括恢复点public int [][] recoverPoint;
 	
-	public static Task getTask(int taskNum){
+	public static Task getTask(int taskNum,Context context){
 
 		switch (taskNum) {
 		case TASK1:
-			return new TaskRound1();
+			return new TaskRound1(context);
 //			break;
 		case TASK2:
 			return null;
@@ -31,4 +35,13 @@ public abstract class Task {
 		return null;
 	}
 
+	public void updateLifeOnMap(){
+		int i = this.hero.lifeNum;//3
+		int [] layer3_top = this.gameMap.getMapExtraLayer3()[0];
+		int j = layer3_top.length-1;//第一行整条的格子数
+		for (;i>0;i--){
+			layer3_top[j]=27;
+			j--;
+		}
+	}
 }

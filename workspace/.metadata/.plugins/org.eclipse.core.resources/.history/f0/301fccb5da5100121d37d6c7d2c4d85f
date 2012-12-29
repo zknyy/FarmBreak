@@ -1,0 +1,12 @@
+package com.lzh.farmbreak;
+
+public class TaskRound1 extends Task {
+	
+	public TaskRound1(){
+		
+		this.hero =  Hero.getHero(Hero.HERO_CHICK);//第一关,小鸡
+	
+		this.gameMap = new GMTask1();
+	}
+
+}

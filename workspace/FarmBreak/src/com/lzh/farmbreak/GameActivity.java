@@ -11,7 +11,8 @@ import com.samsung.spen.lib.input.SPenEventLibrary;
 
 public class GameActivity extends Activity {
 
-	Hero hero = Hero.getHero(Hero.HERO_CHICK);//第一关,小鸡
+//	Hero hero = Hero.getHero(Hero.HERO_CHICK);//第一关,小鸡
+	Task task;
 
     SPenEventLibrary spel = new SPenEventLibrary();
 	
@@ -32,15 +33,16 @@ public class GameActivity extends Activity {
 		// 获取屏幕宽高
 		Display display = getWindowManager().getDefaultDisplay();
 		
+		task = Task.getTask(Task.TASK1, this);
 		// 显示自定义的游戏View
-		AnimationView mAnimView = new AnimationView(this,display.getWidth(), display.getHeight(), hero);
+		AnimationView mAnimView = new AnimationView(this,display.getWidth(), display.getHeight(), this.task.hero);
 		setContentView(mAnimView);
 		
 		
 		//添加SPen的监听器
 
 	    spel.setSPenTouchListener(mAnimView, new TouchListener());//*/
-	    spel.setSPenHoverListener(mAnimView, new HoverListener(this.hero));
+	    spel.setSPenHoverListener(mAnimView, new HoverListener(this.task.hero));
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public abstract class Hero {
 	public static Hero getHero(int heroNum){
 		switch (heroNum) {
 		case HERO_CHICK:
-			return new HChick();
+			return new HeroChick();
 //			break;
 		case HERO_DOG:
 			return null;
