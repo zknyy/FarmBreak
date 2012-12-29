@@ -40,7 +40,7 @@ public abstract class GameMap {
 	public abstract int[][] getMapExtraLayer3() ;
 
 
-	public abstract int[][] getAreaAndRecoverPoint() ;
+	public abstract int[][] getRecoverPoint() ;
 	
 	
 	// Ô­initMap(Context context)·½·¨

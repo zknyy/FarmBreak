@@ -11,6 +11,8 @@ public abstract class Task {
 	
 	public Hero hero;
 	
+	public GameMap gameMap;
+	
 	public int [][] recoverArea;//»Ö¸´ÇøÓò°üÀ¨»Ö¸´µãpublic int [][] recoverPoint;
 	
 	public static Task getTask(int taskNum){
