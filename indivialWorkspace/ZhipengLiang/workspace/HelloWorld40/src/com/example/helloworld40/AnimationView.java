@@ -59,7 +59,7 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
     
     this.hero=hero;
 	
-    gameMap=new GameMap(context);
+    gameMap=new GMTask1(context);
     mPaint = new Paint();
     mScreenWidth = screenWidth;
     mScreenHeight = screenHeight;  
@@ -113,7 +113,7 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 		}
 		super.onDraw(canvas);
 		
-		Log.v("hero", "x: "+hero.mHeroPosX+" y:"+hero.mHeroPosY);
+		Log.v("hero", "x: "+hero.heroPosX+" y:"+hero.heroPosY);
 		
 		invalidate();
 	}
@@ -151,63 +151,63 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 		
 			/** 检测人物是否出屏 **/
 			hero.isBorderCollision = false;
-			if (hero.mHeroPosX <= 0) {
-				hero.mHeroPosX = 0;
+			if (hero.heroPosX <= 0) {
+				hero.heroPosX = 0;
 			    hero.isBorderCollision =true;
-			} else if (hero.mHeroPosX >= mScreenWidth) {
-				hero.mHeroPosX = mScreenWidth;
+			} else if (hero.heroPosX >= mScreenWidth) {
+				hero.heroPosX = mScreenWidth;
 			    hero.isBorderCollision =true;
 			}
-			if (hero.mHeroPosY <= 0) {
-				hero.mHeroPosY = 0;
+			if (hero.heroPosY <= 0) {
+				hero.heroPosY = 0;
 			    hero.isBorderCollision =true;
-			} else if (hero.mHeroPosY >= mScreenHeight) {
-				hero.mHeroPosY = mScreenHeight;
+			} else if (hero.heroPosY >= mScreenHeight) {
+				hero.heroPosY = mScreenHeight;
 				hero.isBorderCollision =true;
 			}
 		
 			/** 算出英雄移动后在地图二位数组中的索引 **/
-			hero.mHeroIndexX = hero.mHeroPosX / GameMap.TILE_WIDTH;
-			hero.mHeroIndexY = hero.mHeroPosY / GameMap.TILE_HEIGHT;
+			hero.heroIndexX=hero.heroPosX / GameMap.TILE_WIDTH;
+			hero.heroIndexY=hero.heroPosY / GameMap.TILE_HEIGHT;
 		
 			/** 越界检测 **/
 //			int width = this.gameMap.mMapExtraLayer3[hero.mHeroIndexY].length - 1;
 //			int height = this.gameMap.mMapExtraLayer3.length - 1;
-			int width = this.gameMap.mMapObjLayer2[hero.mHeroIndexY].length - 1;
-			int height = this.gameMap.mMapObjLayer2.length - 1;
+			int width = this.gameMap.getMapObjLayer2()[hero.heroIndexY].length - 1;
+			int height = this.gameMap.getMapObjLayer2().length - 1;
 		
-			if (hero.mHeroIndexX <= 0) {
-				hero.mHeroIndexX = 0;
-			} else if (hero.mHeroIndexX >= width) {
-				hero.mHeroIndexX = width;
+			if (hero.heroIndexX <= 0) {
+				hero.heroIndexX = 0;
+			} else if (hero.heroIndexX >= width) {
+				hero.heroIndexX = width;
 			}
-			if (hero.mHeroIndexY <= 0) {
-				hero.mHeroIndexY = 0;
-			} else if (hero.mHeroIndexY >= height) {
-				hero.mHeroIndexY = height;
+			if (hero.heroIndexY <= 0) {
+				hero.heroIndexY = 0;
+			} else if (hero.heroIndexY >= height) {
+				hero.heroIndexY = height;
 			}
 //			if (this.gameMap.mMapExtraLayer3[hero.mHeroIndexY][hero.mHeroIndexX] == -1) {
-			if (this.gameMap.mMapObjLayer2[hero.mHeroIndexY][hero.mHeroIndexX] !=0){//== -1) {
-				hero.mHeroPosX = hero.mBackHeroPosX;
-				hero.mHeroPosY = hero.mBackHeroPosY;
+			if (this.gameMap.getMapObjLayer2()[hero.heroIndexY][hero.heroIndexX] !=0){//== -1) {
+				hero.heroPosX = hero.backHeroPosX;
+				hero.heroPosY = hero.backHeroPosY;
 			    hero.isAcotrCollision = true;
 			} else {
-				hero.mBackHeroPosX = hero.mHeroPosX;
-				hero.mBackHeroPosY = hero.mHeroPosY;
+				hero.backHeroPosX = hero.heroPosX;
+				hero.backHeroPosY = hero.heroPosY;
 			    hero.isAcotrCollision = false;
 			}
 			/** 算出人物绘制的XY坐标 **/
-			hero.mHeroImageX = hero.mHeroPosX - Hero.OFF_HERO_X;
-			hero.mHeroImageY = hero.mHeroPosY - Hero.OFF_HERO_Y;
+			hero.heroImageX = hero.heroPosX - hero.heroOffX;//Hero.OFF_HERO_X;
+			hero.heroImageY = hero.heroPosY - hero.heroOffY;//Hero.OFF_HERO_Y;
 //	    }
 	}
 	private void RenderAnimation(Canvas canvas) {
 	    if (mAllkeyDown) {
 		/**绘制主角动画**/
-	    	hero.mHeroAnim[mAnimationState].DrawAnimation(canvas, mPaint, hero.mHeroImageX, hero.mHeroImageY);
+	    	hero.mHeroAnim[mAnimationState].DrawAnimation(canvas, mPaint, hero.heroImageX, hero.heroImageY);
 	    }else {
 		/**按键抬起后人物停止动画**/
-	    	hero.mHeroAnim[mAnimationState].DrawFrame(canvas, mPaint, hero.mHeroImageX, hero.mHeroImageY, 0);
+	    	hero.mHeroAnim[mAnimationState].DrawFrame(canvas, mPaint, hero.heroImageX, hero.heroImageY, 0);
 	    }
 	}
 
@@ -337,39 +337,39 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 	//添加一个触屏的移动函数
 	private void touchHeroMove(){
 		//下
-		if(this.posY>this.hero.mHeroPosY){
+		if(this.posY>this.hero.heroPosY){
 			mAnimationState = Hero.ANIM_DOWN;
-			if(this.posY-this.hero.mHeroPosY>hero.step){
-				this.hero.mHeroPosY += hero.step;
+			if(this.posY-this.hero.heroPosY>hero.step){
+				this.hero.heroPosY += hero.step;
 			}else{
-				this.hero.mHeroPosY += this.posY-this.hero.mHeroPosY;				
+				this.hero.heroPosY += this.posY-this.hero.heroPosY;				
 			}
 		}
 		//右
-		if(this.posX>this.hero.mHeroPosX){
+		if(this.posX>this.hero.heroPosX){
 			mAnimationState = Hero.ANIM_RIGHT;
-			if(this.posX-this.hero.mHeroPosX>hero.step){
-				this.hero.mHeroPosX += hero.step;
+			if(this.posX-this.hero.heroPosX>hero.step){
+				this.hero.heroPosX += hero.step;
 			}else{
-				this.hero.mHeroPosX += this.posX-this.hero.mHeroPosX;				
+				this.hero.heroPosX += this.posX-this.hero.heroPosX;				
 			}
 		}
 		//上
-		if(this.posY<this.hero.mHeroPosY){
+		if(this.posY<this.hero.heroPosY){
 			mAnimationState = Hero.ANIM_UP;
-			if(this.hero.mHeroPosY-this.posY>hero.step){
-				this.hero.mHeroPosY -= hero.step;
+			if(this.hero.heroPosY-this.posY>hero.step){
+				this.hero.heroPosY -= hero.step;
 			}else{
-				this.hero.mHeroPosY -= this.hero.mHeroPosY-this.posY;				
+				this.hero.heroPosY -= this.hero.heroPosY-this.posY;				
 			}
 		}
 		//左
-		if(this.posX<this.hero.mHeroPosX){
+		if(this.posX<this.hero.heroPosX){
 			mAnimationState = Hero.ANIM_LEFT;
-			if(this.hero.mHeroPosX-this.posX>hero.step){
-				this.hero.mHeroPosX -= hero.step;
+			if(this.hero.heroPosX-this.posX>hero.step){
+				this.hero.heroPosX -= hero.step;
 			}else{
-				this.hero.mHeroPosX -= this.hero.mHeroPosX-this.posX;				
+				this.hero.heroPosX -= this.hero.heroPosX-this.posX;				
 			}
 		}
 	}

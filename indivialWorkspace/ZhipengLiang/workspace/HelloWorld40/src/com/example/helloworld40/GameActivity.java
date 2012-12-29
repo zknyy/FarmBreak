@@ -11,7 +11,7 @@ import com.samsung.spen.lib.input.SPenEventLibrary;
 
 public class GameActivity extends Activity {
 
-	Hero hero = new Hero();
+	Hero hero = Hero.getHero(Hero.HERO_CHICK);//第一关,小鸡
 
     SPenEventLibrary spel = new SPenEventLibrary();
 	
