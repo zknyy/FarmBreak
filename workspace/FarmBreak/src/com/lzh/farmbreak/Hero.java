@@ -59,10 +59,11 @@ public abstract class Hero {
 //	public   int OFF_HERO_X = 20;//16
 //	public   int OFF_HERO_Y = 20;//35
 
+	//主角图片资源与实际英雄脚底板坐标的偏移
 	public   int heroOffX;//20//16
 	public   int heroOffY;//20//35
 
-	  //英雄在地图中的坐标以英雄脚底中心为原点
+	  //主角初始化时所在的点坐标
 	public  int heroPosX ;//100//20;
 	public  int heroPosY;//110//20;
 

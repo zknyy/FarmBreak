@@ -35,7 +35,7 @@ public class GameActivity extends Activity {
 		
 		task = Task.getTask(Task.TASK1, this);
 		// 显示自定义的游戏View
-		AnimationView mAnimView = new AnimationView(this,display.getWidth(), display.getHeight(), this.task.hero);
+		AnimationView mAnimView = new AnimationView(this,display.getWidth(), display.getHeight(), this.task);
 		setContentView(mAnimView);
 		
 		

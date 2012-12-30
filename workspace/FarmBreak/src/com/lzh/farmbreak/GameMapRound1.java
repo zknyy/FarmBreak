@@ -81,7 +81,6 @@ public class GameMapRound1 extends GameMap{
 		};
 
 	//隐藏层,恢复区域
-
 //	  <object x="0" y="0" width="440" height="720"/>
 //	  <object x="440" y="0" width="840" height="320"/>
 //	  <object x="440" y="320" width="840" height="400"/>
@@ -95,9 +94,14 @@ public class GameMapRound1 extends GameMap{
 	//回复点所在的Tile坐标
 	private int [][] recoverPoint  = {
 			{2,2},{11,6},{29,8}			
-		};
+	};
 
-
+	
+	
+	
+	
+	
+	
 	public int[][] getRecoverArea() {
 		return recoverArea;
 	}

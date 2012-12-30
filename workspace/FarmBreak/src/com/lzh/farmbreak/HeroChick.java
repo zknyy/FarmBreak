@@ -18,9 +18,10 @@ public class HeroChick extends Hero{
 		this.heroOffX = 20;//16
 		this.heroOffY = 20;//35
 
-		  //英雄在地图中的坐标以英雄脚底中心为原点
-		this.heroPosX = 20;
-		this.heroPosY= 20;
+
+		  //主角初始化时所在的点坐标
+		this.heroPosX = 80;
+		this.heroPosY= 120;
 
 		  //备份英雄发生碰撞以前的坐标点
 		this.backHeroPosX = 80;//120;
@@ -32,7 +33,7 @@ public class HeroChick extends Hero{
 
 		  //英雄在地图二位数组中的索引
 		this.heroIndexX = 2;
-		this.heroIndexY= 2;
+		this.heroIndexY= 3;
 		
 		//四个碰撞点
 		this.hitPoints = new int[][]{

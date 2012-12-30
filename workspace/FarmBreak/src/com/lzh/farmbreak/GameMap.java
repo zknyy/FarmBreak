@@ -63,6 +63,8 @@ public abstract class GameMap {
 
 	public abstract int[][] getRecoverPoint() ;
 	
+
+	public abstract int[][] getRecoverArea() ;
 	
 	// Ô­initMap(Context context)·½·¨
 	public GameMap(Context context) {

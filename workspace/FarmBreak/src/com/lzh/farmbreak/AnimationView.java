@@ -1,6 +1,7 @@
 package com.lzh.farmbreak;
 
 import java.io.InputStream;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,12 +10,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class AnimationView extends View {
+	private Context context;		//获取上下文
+	private SoundPool soundPool;	//音效使用SoundPool
+	private HashMap<Integer, Integer> soundPoolMap; 
 	//添加一个用于接受屏幕触屏的事件
     int touchAction ;
     
@@ -43,30 +49,50 @@ Resources mResources = null;
 int mScreenWidth = 0;
 int mScreenHeight = 0;
 
-
-
-//分离出来的GameMap类
-GameMap gameMap = null;
-Hero hero = null;
+	
+	
+	//分离出来的GameMap类
+	Task task =null;
+	GameMap gameMap = null;
+	Hero hero = null;
 /**
  * 构造方法
  * 
  * @param context
  */
-public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero) {
+public AnimationView(Context context,int screenWidth, int screenHeight,Task task) {
 	
     super(context);
+    this.task = task;
+    this.context=context;//初始化上下文，播放音效时要用到
+    initEffect(context);
+    this.hero=task.hero;
+    this.gameMap = task.gameMap;
+    //gameMap=new GameMapRound1(context);
     
-    this.hero=hero;
-	
-    gameMap=new GameMapRound1(context);
     mPaint = new Paint();
     mScreenWidth = screenWidth;
     mScreenHeight = screenHeight;  
     initAnimation(context);
 }
 
-	
+private void initEffect(Context context)
+{
+	//初始化音效音
+	soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
+    soundPoolMap = new HashMap<Integer, Integer>();   
+    //载入音效并放入哈希表中，不知道为什么要这样做
+    soundPoolMap.put(1, soundPool.load(context, R.raw.hit, 1));
+}
+private void playEffect(int sound,int loop) {//用SoundPoll播放声音的方法
+	AudioManager mgr = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);   
+	//获取手机当前多媒体音量
+	float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);   
+	//获取手机最大多媒体音量
+	float streamVolumeMax = mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);       
+	float volume = streamVolumeCurrent/streamVolumeMax;							//当前音量和最大音量的比值
+	soundPool.play(soundPoolMap.get(sound), volume, volume, 1, loop, 1f);	//播放音效
+}
 	//private void initMap(Context context) {
 	//    mBitmap = ReadBitMap(context, R.drawable.map);
 	//    mBitMapWidth = mBitmap.getWidth();
@@ -106,14 +132,18 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 		}
 
 		if (hero.isAcotrCollision) {
+			task.recover();//恢复到制定格
+			playEffect(1,0);//播放音效
 			DrawCollision(canvas, "与实体层发生碰撞");
+			Log.v("AnimationView", "与实体层发生碰撞");
+			this.task.getHurted();
 		}
 		if (hero.isPersonCollision) {
 			DrawCollision(canvas, "与NPC发生碰撞");
 		}
 		super.onDraw(canvas);
 		
-		Log.v("hero", "x: "+hero.heroPosX+" y:"+hero.heroPosY);
+		//Log.v("hero", "x: "+hero.heroPosX+" y:"+hero.heroPosY);
 		
 		invalidate();
 	}
@@ -148,8 +178,10 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 			
 			//添加一个触屏的移动函数
 //			this.touchHeroMove();
-		
+//		Log.v("isBorderCollision1", "heroPosX:"+hero.heroPosX+" heroPosY:"+hero.heroPosY);
+	
 			/** 检测人物是否出屏 **/
+		/*
 			hero.isBorderCollision = false;
 			if (hero.heroPosX <= 0) {
 				hero.heroPosX = 0;
@@ -165,17 +197,21 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 				hero.heroPosY = mScreenHeight;
 				hero.isBorderCollision =true;
 			}
-		
+		*/
+			Log.v("beforehit", "heroPosX:"+hero.heroPosX+" heroPosY:"+hero.heroPosY);
+			Log.v("beforehit", "heroIndexX:"+hero.heroIndexX+" heroIndexY:"+hero.heroIndexY);
 			/** 算出英雄移动后在地图二位数组中的索引 **/
 			hero.heroIndexX=hero.heroPosX / GameMap.TILE_WIDTH;
 			hero.heroIndexY=hero.heroPosY / GameMap.TILE_HEIGHT;
+			Log.v("beforehit2", "heroIndexX:"+hero.heroIndexX+" heroIndexY:"+hero.heroIndexY);
 		
 			/** 越界检测 **/
 //			int width = this.gameMap.mMapExtraLayer3[hero.mHeroIndexY].length - 1;
 //			int height = this.gameMap.mMapExtraLayer3.length - 1;
 			int width = this.gameMap.getMapObjLayer2()[hero.heroIndexY].length - 1;
 			int height = this.gameMap.getMapObjLayer2().length - 1;
-		
+			Log.v("beforehit3", "width:"+width+" height:"+height);
+			
 			if (hero.heroIndexX <= 0) {
 				hero.heroIndexX = 0;
 			} else if (hero.heroIndexX >= width) {
@@ -186,8 +222,12 @@ public AnimationView(Context context,int screenWidth, int screenHeight,Hero hero
 			} else if (hero.heroIndexY >= height) {
 				hero.heroIndexY = height;
 			}
+			Log.v("beforehit4", "heroIndexX:"+hero.heroIndexX+" heroIndexY:"+hero.heroIndexY);
+			
 //			if (this.gameMap.mMapExtraLayer3[hero.mHeroIndexY][hero.mHeroIndexX] == -1) {
 			if (this.gameMap.getMapObjLayer2()[hero.heroIndexY][hero.heroIndexX] !=0){//== -1) {
+				Log.v("hit", "X:"+hero.heroIndexX+" Y:"+hero.heroIndexY
+						+" L2obj:"+this.gameMap.getMapObjLayer2()[hero.heroIndexY][hero.heroIndexX]);
 				hero.heroPosX = hero.backHeroPosX;
 				hero.heroPosY = hero.backHeroPosY;
 			    hero.isAcotrCollision = true;
